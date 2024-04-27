@@ -7,6 +7,139 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
- model User {
-  id String @id @default(uuid())
- }
+model User {
+  id          Int                @id @default(autoincrement())
+  externalId  String             @unique
+  name        String
+  email       String             @unique
+  phone       String?
+  cpf         String?            @unique
+  role        String
+  createdEvents Event[]
+  purchaseOrders PurchaseOrder[]
+  eventOrganizers EventOrganizers[]
+  waitingLists WaitingList[]
+  @@map("users")
+}
+
+model Event {
+  id                 Int             @id @default(autoincrement())
+  title              String
+  description        String
+  location           String
+  capacity           Int
+  categoryId         Int
+  status             String?
+  startDate          DateTime       
+  endDate            DateTime        
+  salesStartDate     DateTime?
+  showStartDate      DateTime?
+  format             String
+  producer           String
+  ageRating          Int
+  price              String?
+  additionalDetails  String
+  creatorId          Int
+  category           EventCategory?  @relation(fields: [categoryId], references: [id])
+  creator            User            @relation(fields: [creatorId], references: [id])
+  purchaseOrders     PurchaseOrder[]
+  eventOrganizers    EventOrganizers[]
+  ticketTypes        TicketType[]
+  attractions        Attraction[]
+  assets             Asset[]
+  waitingLists       WaitingList[]
+  @@map("events")
+}
+
+model Ticket {
+  id                Int            @id @default(autoincrement())
+  ticketTypeId      Int
+  purchaseOrderId   Int
+  participantName   String
+  participantEmail  String
+  price             Float
+  status            String
+  cancelledBy       String?
+  purchaseDate      DateTime?
+  seatLocation      String?
+  ticketType        TicketType     @relation(fields: [ticketTypeId], references: [id])
+  purchaseOrder     PurchaseOrder  @relation(fields: [purchaseOrderId], references: [id])
+  @@map("tickets")
+}
+
+model PurchaseOrder {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  eventId      Int
+  totalPrice   Float
+  status       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime?
+  user         User       @relation(fields: [userId], references: [id])
+  event        Event      @relation(fields: [eventId], references: [id])
+  tickets      Ticket[]
+  @@map("purchaseOrders")
+}
+
+model Attraction {
+  id          Int     @id @default(autoincrement())
+  eventId     Int
+  name        String
+  url         String
+  description String?
+  event       Event   @relation(fields: [eventId], references: [id])
+  @@map("attractions")
+}
+
+model EventCategory {
+  id          Int    @id @default(autoincrement())
+  description String?
+  isActive    Boolean @default(true)
+  events      Event[]
+  @@map("eventCategories")
+}
+
+model EventOrganizers {
+  eventId Int
+  userId  Int
+  event   Event @relation(fields: [eventId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
+  @@id([eventId, userId])
+  @@map("eventOrganizers")
+}
+
+model TicketType {
+  id              Int     @id @default(autoincrement())
+  eventId         Int
+  description     String
+  price           Float
+  quantity        Int
+  salesStartDate  DateTime?
+  salesEndDate    DateTime?
+  isActive        Boolean @default(true)
+  event           Event   @relation(fields: [eventId], references: [id])
+  tickets         Ticket[]
+  @@map("ticketTypes")
+}
+
+model Asset {
+  id          Int    @id @default(autoincrement())
+  eventId     Int
+  type        String
+  url         String
+  description String?
+  event       Event  @relation(fields: [eventId], references: [id])
+  @@map("assets")
+}
+
+model WaitingList {
+  id              Int     @id @default(autoincrement())
+  eventId         Int
+  userId          Int
+  timestamp       DateTime
+  status          String
+  offerExpiration DateTime?
+  event           Event   @relation(fields: [eventId], references: [id])
+  user            User    @relation(fields: [userId], references: [id])
+  @@map("waitingLists")
+}
