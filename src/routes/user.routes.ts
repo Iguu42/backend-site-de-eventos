@@ -15,9 +15,9 @@ function registerUserRoute(fastify: FastifyInstance) {
         const { externalId, name, email } = req.body;
         try {
             const data = await userUseCase.create({ externalId, name, email });
-            reply.code(201).send(data); 
+            reply.code(201).send(data);
         } catch (error) {
-            reply.code(400).send(error); 
+            reply.code(400).send(error);
         }
     });
 }

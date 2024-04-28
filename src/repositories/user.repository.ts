@@ -9,7 +9,7 @@ class UserRepositoryPrisma implements UserRepository {
                     externalId: data.externalId,
                     name: data.name,
                     email: data.email,
-                    role: 'user' 
+                    role: 'user'
                 }
             });
         } catch (error) {
