@@ -6,11 +6,19 @@ export interface TicketType {
     description: string;
     price: number;
     quantity: number;
-    salesStartDate?: Date | null;
-    salesEndDate?: Date | null;
+    salesStartDate: Date | null;
+    salesEndDate: Date | null;
     isActive: boolean;
-    event: Event;
-    tickets: Ticket[];
+}
+
+export interface TicketTypeCreate {
+    eventId: number;
+    description: string;
+    price: number;
+    quantity: number;
+    salesStartDate: Date | null;
+    salesEndDate: Date | null;
+    isActive?: boolean;
 }
 
 
@@ -40,6 +48,7 @@ export interface TicketCreate{
 }
 
 export interface TicketRepository {
-    create(data: TicketCreate): Promise<Ticket>;
+    createTicket(data: TicketCreate): Promise<Ticket>;
+    createTicketType(data: TicketTypeCreate): Promise<TicketType>;
     findById(id: number): Promise <Ticket | null>;
 }
