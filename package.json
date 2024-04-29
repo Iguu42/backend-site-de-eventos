@@ -17,6 +17,8 @@
     "svix": "^1.21.0"
   },
   "devDependencies": {
+    "@types/bull": "^4.10.0",
+    "@types/node": "^20.12.7",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^3.1.0",
     "nodemon": "^3.1.0",

@@ -20,4 +20,4 @@ function registerUserRoute(fastify: FastifyInstance) {
             reply.code(400).send(error);
         }
     });
-}
+};
