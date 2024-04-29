@@ -3,7 +3,6 @@ import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
 import { webhookClerk } from "./routes/clerkWebhook.routes";
 import { purchaseOrderRoutes } from "./routes/purchaseOrder.routes";
-import Bull from "bull";
 
 const app: FastifyInstance = fastify({ logger: true });
 

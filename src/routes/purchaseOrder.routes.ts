@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { PurchaseOrderAndTicketsCreate } from "../interfaces/purchaseOrder.interface";
 import { PurchaseOrderUseCase } from "../usecases/purchaseOrder.usecases";
 import Bull from "bull";
+import 'dotenv/config'
 
 const purchaseOrderUseCase = new PurchaseOrderUseCase();
 const queue = new Bull('purchaseOrder', { redis: { host: process.env.REDIS_HOST as string, port: parseInt(process.env.REDIS_PORT as string) } });

@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.13.0",
+    "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "svix": "^1.21.0"
   },

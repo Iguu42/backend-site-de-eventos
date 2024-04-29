@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Webhook } from "svix";
 import { UserUseCase } from "../usecases/user.usecase";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
+import 'dotenv/config'
 
 export async function webhookClerk(fastify: FastifyInstance) {
   const userRepositoryPrisma = new UserRepositoryPrisma();
