@@ -1,26 +1,5 @@
 import {PurchaseOrder} from './purchaseOrder.interface'
-
-export interface TicketType {
-    id: number;
-    eventId: number;
-    description: string;
-    price: number;
-    quantity: number;
-    salesStartDate: Date | null;
-    salesEndDate: Date | null;
-    isActive: boolean;
-}
-
-export interface TicketTypeCreate {
-    eventId: number;
-    description: string;
-    price: number;
-    quantity: number;
-    salesStartDate: Date | null;
-    salesEndDate: Date | null;
-    isActive?: boolean;
-}
-
+import { TicketTypeCreate } from './ticketType.interface';
 
 export interface Ticket {
     id: number;
@@ -48,7 +27,6 @@ export interface TicketCreate{
 }
 
 export interface TicketRepository {
-    createTicket(data: TicketCreate): Promise<Ticket>;
-    createTicketType(data: TicketTypeCreate): Promise<TicketType>;
+    create(data: TicketCreate): Promise<Ticket>;
     findById(id: number): Promise <Ticket | null>;
 }
