@@ -1,7 +1,6 @@
 const cluster = require('cluster');
 const http = require('http');
 const async = require('async');
-
 if (cluster.isMaster) {
   const numWorkers = require('os').cpus().length;
 
@@ -18,7 +17,7 @@ if (cluster.isMaster) {
   // Detalhes do endpoint
   const options = {
     hostname: 'localhost',
-    port: 3003,
+    port: 3000,
     path: '/purchaseorder',
     method: 'POST',
     headers: {

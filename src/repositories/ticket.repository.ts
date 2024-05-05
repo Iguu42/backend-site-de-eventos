@@ -15,7 +15,7 @@ class TicketRepositoryPrisma implements TicketRepository {
           participantName: data.participantName,
           participantEmail: data.participantEmail,
           price: data.price,
-          cancelledBy: null, 
+          cancelledBy: null,
           status: data.status,
           purchaseDate: data.status ?? null,
           seatLocation: data.seatLocation ?? null,
@@ -25,7 +25,7 @@ class TicketRepositoryPrisma implements TicketRepository {
       throw new Error("An error occurred when generating your ticket");
     }
   }
-  
+
   async findById(id: number): Promise<Ticket | null> {
     throw new Error("Method not implemented.");
   }

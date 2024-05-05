@@ -23,4 +23,4 @@ class TicketTypeRepositoryPrisma implements TicketTypeRepository {
 }
 
 
-export {TicketTypeRepositoryPrisma}
+export { TicketTypeRepositoryPrisma }
