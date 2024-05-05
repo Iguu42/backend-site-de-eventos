@@ -24,6 +24,6 @@ app.register(purchaseOrderRoutes, {
 })
 
 app.listen({
-    port: port || 3003,
+    port: port || 3000,
 },
     () => console.log(`Server on port ${port}`));
