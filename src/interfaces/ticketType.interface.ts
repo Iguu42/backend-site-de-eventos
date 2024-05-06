@@ -1,6 +1,6 @@
 export interface TicketType {
-    id: number;
-    eventId: number;
+    id: string;
+    eventId: string;
     description: string;
     price: number;
     quantity: number;
@@ -10,7 +10,7 @@ export interface TicketType {
 }
 
 export interface TicketTypeCreate {
-    eventId: number;
+    eventId: string;
     description: string;
     price: number;
     quantity: number;

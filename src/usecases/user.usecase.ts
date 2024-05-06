@@ -14,6 +14,6 @@ class UserUseCase {
         }
         return this.userRepository.create({ externalId, name, email });
     }
-}
+}  
 
 export { UserUseCase };

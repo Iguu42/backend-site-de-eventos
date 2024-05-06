@@ -2,9 +2,9 @@ import {PurchaseOrder} from './purchaseOrder.interface'
 import { TicketTypeCreate } from './ticketType.interface';
 
 export interface Ticket {
-    id: number;
-    ticketTypeId: number;
-    purchaseOrderId: number;
+    id: string;
+    ticketTypeId: string;
+    purchaseOrderId: string;
     participantName: string;
     participantEmail: string;
     price: number;
@@ -15,8 +15,8 @@ export interface Ticket {
 }
 
 export interface TicketCreate{
-    ticketTypeId: number;
-    purchaseOrderId: number;
+    ticketTypeId: string;
+    purchaseOrderId: string;
     participantName: string;
     participantEmail: string;
     price: number;

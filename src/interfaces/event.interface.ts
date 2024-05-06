@@ -1,31 +1,31 @@
 export interface Event{
-    id: number;
+    id: string;
     title: string;
     description: string;
     location: string;
     capacity: number;
-    categoryId: number;
+    categoryId: string;
     startDate: Date;
     endDate: Date;
     format: string;
     producer: string;
     ageRating: number;
     additionalDetails: string;
-    creatorId: number;
+    creatorId: string;
 }
 export interface EventCreate{
     title: string;
     description: string;
     location: string;
     capacity: number;
-    categoryId: number;
+    categoryId: string;
     startDate: Date;
     endDate: Date;
     format: string;
     producer: string;
     ageRating: number;
     additionalDetails: string;
-    creatorId: number;
+    creatorId: string;
 }
 
 export interface EventRepository {
