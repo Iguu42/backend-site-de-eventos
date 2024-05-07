@@ -10,6 +10,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     registerUserRoute(fastify);
     updateUserRoute(fastify);
     deleteUserRoute(fastify);
+    getUserRoute(fastify);
 }
 
 function registerUserRoute(fastify: FastifyInstance) {
@@ -48,4 +49,16 @@ function deleteUserRoute(fastify: FastifyInstance) {
         }
     });
 };
+
+function getUserRoute(fastify: FastifyInstance) {
+    fastify.get<{Params: {id: string} }>('/:id', async (req, reply) => {
+        const { id } = req.params;
+        try {
+            const data = await userRepository.findUserById(id);
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    });
+}
 

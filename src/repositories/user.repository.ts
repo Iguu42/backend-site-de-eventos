@@ -81,6 +81,17 @@ class UserRepositoryPrisma implements UserRepository {
             throw new Error('Failed to find user by email');
         }
     }
+    async findUserById(id: string): Promise<User | null> {
+        try {
+            return await prisma.user.findFirst({
+                where: {
+                    id
+                }
+            });
+        } catch (error) {
+            throw new Error('Failed to find user by id');
+        }
+    }
 
     async findUserByExternalId(externalId: string): Promise<User | null> {
         try {
