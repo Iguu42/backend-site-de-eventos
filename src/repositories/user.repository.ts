@@ -44,9 +44,9 @@ class UserRepositoryPrisma implements UserRepository {
                     cpf: data.cpf,
                     phone: data.phone
                 }
-                
-        });
-        return result;
+
+            });
+            return result;
         } catch (error) {
             throw new Error('Failed to update user');
         }
@@ -63,9 +63,9 @@ class UserRepositoryPrisma implements UserRepository {
                     lastName: data.lastName,
                     email: data.email,
                 }
-                
-        });
-        return result;
+
+            });
+            return result;
         } catch (error) {
             throw new Error('Failed to update user');
         }
@@ -102,6 +102,24 @@ class UserRepositoryPrisma implements UserRepository {
             });
         } catch (error) {
             throw new Error('Failed to find user by external id.');
+        }
+    }
+    async findUserByExternalOrId(id: string): Promise<User | null> {
+        try {
+            return await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        {
+                            externalId: id
+                        },
+                        {
+                            id: id
+                        }
+                    ]
+                }
+            });
+        } catch (error) {
+            throw new Error('Failed to find user by external id or id.');
         }
     }
 }

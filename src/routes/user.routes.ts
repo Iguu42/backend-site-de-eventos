@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { UserUseCase } from "../usecases/user.usecase";
-import { User,UserCreate, UserUpdate } from "../interfaces/user.interface";
+import { User, UserCreate, UserUpdate } from "../interfaces/user.interface";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
 
 const userRepository = new UserRepositoryPrisma();
@@ -15,7 +15,7 @@ export async function userRoutes(fastify: FastifyInstance) {
 
 function registerUserRoute(fastify: FastifyInstance) {
     fastify.post<{ Body: UserCreate }>('/', async (req, reply) => {
-        const { externalId, firstName ,lastName, email } = req.body;
+        const { externalId, firstName, lastName, email } = req.body;
         try {
             const data = await userUseCase.create({ externalId, firstName, lastName, email });
             reply.code(201).send(data);
@@ -26,7 +26,7 @@ function registerUserRoute(fastify: FastifyInstance) {
 };
 
 function updateUserRoute(fastify: FastifyInstance) {
-    fastify.patch<{ Body: UserUpdate, Params: {id: string} }>('/:id', async (req, reply) => {
+    fastify.patch<{ Body: UserUpdate, Params: { id: string } }>('/:id', async (req, reply) => {
         const { id } = req.params;
         const { firstName, lastName, email, role, cpf, phone } = req.body;
         try {
@@ -39,11 +39,11 @@ function updateUserRoute(fastify: FastifyInstance) {
 };
 
 function deleteUserRoute(fastify: FastifyInstance) {
-    fastify.delete<{Params: {id: string} }>('/:id', async (req, reply) => {
+    fastify.delete<{ Params: { id: string } }>('/:id', async (req, reply) => {
         const { id } = req.params;
         try {
             const data = await userUseCase.delete(id);
-          return reply.send(data);
+            return reply.send(data);
         } catch (error) {
             reply.code(404).send(error);
         }
@@ -51,10 +51,11 @@ function deleteUserRoute(fastify: FastifyInstance) {
 };
 
 function getUserRoute(fastify: FastifyInstance) {
-    fastify.get<{Params: {id: string} }>('/:id', async (req, reply) => {
+    fastify.get<{ Params: { id: string } }>('/:id', async (req, reply) => {
         const { id } = req.params;
         try {
-            const data = await userRepository.findUserById(id);
+            const data = await userUseCase.findUserByExternalOrId(id);
+            console.log(data);
             reply.code(200).send(data);
         } catch (error) {
             reply.code(404).send(error);
