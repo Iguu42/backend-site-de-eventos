@@ -1,15 +1,15 @@
 export interface PurchaseOrder {
-    id: number;
-    userId: number;
-    eventId: number;
+    id: string;
+    userId: string;
+    eventId: string;
     totalPrice: Number;
     quantityTickets: number;
     status: string;
 }
 export interface PurchaseOrderAndTicketsCreate {
-    userId: number;
-    eventId: number;
-    ticketTypeId: number;
+    userId: string;
+    eventId: string;
+    ticketTypeId: string;
     quantityTickets: number;
     status: string;
     participantName: string;

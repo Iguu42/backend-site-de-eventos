@@ -8,9 +8,10 @@ datasource db {
 }
 
 model User {
-  id          Int                @id @default(autoincrement())
+  id          String             @id @default(uuid())
   externalId  String             @unique
-  name        String
+  firstName   String
+  lastName    String
   email       String             @unique
   phone       String?
   cpf         String?            @unique
@@ -23,12 +24,12 @@ model User {
 }
 
 model Event {
-  id                 Int             @id @default(autoincrement())
+  id                 String             @id @default(uuid())
   title              String
   description        String
   location           String
   capacity           Int
-  categoryId         Int
+  categoryId         String
   status             String?
   startDate          DateTime       
   endDate            DateTime        
@@ -39,7 +40,7 @@ model Event {
   ageRating          Int
   price              String?
   additionalDetails  String
-  creatorId          Int
+  creatorId          String
   category           EventCategory?  @relation(fields: [categoryId], references: [id])
   creator            User            @relation(fields: [creatorId], references: [id])
   purchaseOrders     PurchaseOrder[]
@@ -52,9 +53,9 @@ model Event {
 }
 
 model Ticket {
-  id                Int            @id @default(autoincrement())
-  ticketTypeId      Int
-  purchaseOrderId   Int
+  id                String            @id @default(uuid())
+  ticketTypeId      String
+  purchaseOrderId   String
   participantName   String
   participantEmail  String
   price             Float
@@ -68,9 +69,9 @@ model Ticket {
 }
 
 model PurchaseOrder {
-  id           Int        @id @default(autoincrement())
-  userId       Int
-  eventId      Int
+  id           String        @id @default(uuid())
+  userId       String
+  eventId      String
   totalPrice   Float
   quantityTickets Int
   status       String
@@ -83,8 +84,8 @@ model PurchaseOrder {
 }
 
 model Attraction {
-  id          Int     @id @default(autoincrement())
-  eventId     Int
+  id          String     @id @default(uuid())
+  eventId     String
   name        String
   url         String
   description String?
@@ -93,7 +94,7 @@ model Attraction {
 }
 
 model EventCategory {
-  id          Int    @id @default(autoincrement())
+  id          String    @id @default(uuid())
   description String?
   isActive    Boolean @default(true)
   events      Event[]
@@ -101,8 +102,8 @@ model EventCategory {
 }
 
 model EventOrganizers {
-  eventId Int
-  userId  Int
+  eventId String
+  userId  String
   event   Event @relation(fields: [eventId], references: [id])
   user    User  @relation(fields: [userId], references: [id])
   @@id([eventId, userId])
@@ -110,8 +111,8 @@ model EventOrganizers {
 }
 
 model TicketType {
-  id              Int     @id @default(autoincrement())
-  eventId         Int
+  id              String     @id @default(uuid())
+  eventId         String
   description     String
   price           Float
   quantity        Int
@@ -124,8 +125,8 @@ model TicketType {
 }
 
 model Asset {
-  id          Int    @id @default(autoincrement())
-  eventId     Int
+  id          String    @id @default(uuid())
+  eventId     String
   type        String
   url         String
   description String?
@@ -134,9 +135,9 @@ model Asset {
 }
 
 model WaitingList {
-  id              Int     @id @default(autoincrement())
-  eventId         Int
-  userId          Int
+  id              String     @id @default(uuid())
+  eventId         String
+  userId          String
   timestamp       DateTime
   status          String
   offerExpiration DateTime?

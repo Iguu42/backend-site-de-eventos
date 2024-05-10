@@ -12,7 +12,7 @@ class PurchaseOrderRepositoryPrisma implements PurchaseOrderRepository {
                 });
 
                 if (!ticketType || ticketType.quantity < quantityTickets) {
-                    throw new Error(`Insufficient ticket quantity available. Available: ${ticketType?.quantity}, Requested: ${quantityTickets}`);   
+                    throw new Error(`Insufficient ticket quantity available. Available: ${ticketType?.quantity}, Requested: ${quantityTickets}`);
                 }
                 const purchaseOrder = await prisma.purchaseOrder.create({
                     data: {
@@ -40,7 +40,7 @@ class PurchaseOrderRepositoryPrisma implements PurchaseOrderRepository {
                     where: { id: ticketTypeId },
                     data: { quantity: ticketType.quantity - quantityTickets }
                 });
-    
+
                 return purchaseOrder;
             });
         } catch (error) {

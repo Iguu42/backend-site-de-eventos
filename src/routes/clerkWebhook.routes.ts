@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Webhook } from "svix";
 import { UserUseCase } from "../usecases/user.usecase";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
+import 'dotenv/config'
 
 export async function webhookClerk(fastify: FastifyInstance) {
   const userRepositoryPrisma = new UserRepositoryPrisma();
@@ -54,31 +55,51 @@ export async function webhookClerk(fastify: FastifyInstance) {
     }
 
     // Grab the ID and TYPE of the Webhook
-    const { id, email_addresses, first_name } = evt.data;
+    const { id, email_addresses, first_name, last_name } = evt.data;
     const { type, data } = evt;
 
     //TODO:
     //Criar função para gerenciar as respostas do webhook
 
     switch (type) {
+      case 'user.deleted':
+        console.log('user deleted')
+        try {
+          const data = await userUseCase.deleteByClerk(id);
+          return reply.send(data);
+        } catch (error) {
+          reply.send(error)
+        }
+        break;
       case 'user.created':
         console.log('user created')
         try {
           const data = await userUseCase.create({
             externalId: id,
-            name: first_name,
+            firstName: first_name,
+            lastName: last_name,
             email: email_addresses[0].email_address,
-
           });
-          return reply.send(data)
+          return reply.send(data);
         } catch (error) {
           reply.send(error)
         }
         break;
 
       case 'user.updated':
-        console.log('Usuário editado');
         console.log('Webhook body:', data);
+        try {
+          console.log('Usuário editado');
+          const data = await userUseCase.updateByClerk({
+            externalId: id,
+            firstName: first_name,
+            lastName: last_name,
+            email: email_addresses[0].email_address,
+          });
+          return reply.send(data);
+        } catch (error) {
+          reply.send(error)
+        }
         break;
 
       case 'session.ended':
