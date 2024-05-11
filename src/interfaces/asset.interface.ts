@@ -11,6 +11,16 @@ export interface AssetCreate {
     url: string;
     description: string | null;
 }
+export interface AssetUpdate {
+    id: string;
+    type: string;
+    url: string;
+    description: string | null;
+}
 export interface AssetRepository {
-    create(data: AssetCreate): Promise<Asset>;
+    createAsset(data: AssetCreate): Promise<Asset>;
+    deleteAsset(id: string): Promise<void>;
+    updateAsset(data: AssetUpdate): Promise<AssetUpdate>;
+    getAllAssetsByEventId(eventId: string): Promise<Asset[]>;
+    getAssetById(id: string): Promise<Asset | null>;
 }
