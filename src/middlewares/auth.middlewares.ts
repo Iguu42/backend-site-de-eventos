@@ -35,7 +35,7 @@ export async function jwtValidator(req: any, reply: any) {
     });
 
     const userId = decodedToken.sub;
-    req.userId = userId;
+    req.params.userId = userId
 
     return;
 
