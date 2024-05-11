@@ -4,9 +4,17 @@ import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
 import { webhookClerk } from "./routes/clerkWebhook.routes";
 import { purchaseOrderRoutes } from "./routes/purchaseOrder.routes";
+import cors from '@fastify/cors'
 
 const app: FastifyInstance = fastify({ logger: true });
 const port = parseInt(process.env.PORT as string);
+
+app.register(cors, {
+    origin: [
+      'http://localhost:5173',
+      'https://site-de-eventos-frontend.vercel.app'
+    ]
+  });
 
 app.register(userRoutes, {
     prefix: '/users',
