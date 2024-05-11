@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { UserUseCase } from "../usecases/user.usecase";
 import { User, UserCreate, UserUpdate } from "../interfaces/user.interface";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
+import { jwtValidator } from "../middlewares/auth.middlewares";
 
 const userRepository = new UserRepositoryPrisma();
 const userUseCase = new UserUseCase(userRepository);
@@ -51,10 +52,11 @@ function deleteUserRoute(fastify: FastifyInstance) {
 };
 
 function getUserRoute(fastify: FastifyInstance) {
-    fastify.get<{ Params: { id: string } }>('/:id', async (req, reply) => {
-        const { id } = req.params;
+    fastify.addHook("preHandler", jwtValidator);
+    fastify.get<{ Params: { userId: string } }>('/', async (req, reply) => {
+        const externalId = req.params.userId;
         try {
-            const data = await userUseCase.findUserByExternalOrId(id);
+            const data = await userUseCase.findUserByExternalOrId(externalId);
             console.log(data);
             reply.code(200).send(data);
         } catch (error) {
