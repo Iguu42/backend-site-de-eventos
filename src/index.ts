@@ -1,9 +1,11 @@
 import 'dotenv/config';
-import fastify, { FastifyInstance } from "fastify";
+import fastify from "fastify";
 import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
 import { webhookClerk } from "./routes/clerkWebhook.routes";
 import { purchaseOrderRoutes } from "./routes/purchaseOrder.routes";
+import { assetRoutes} from "./routes/asset.routes";
+import { FastifyInstance } from "fastify/types/instance";
 
 const app: FastifyInstance = fastify({ logger: true });
 const port = parseInt(process.env.PORT as string);
@@ -21,6 +23,9 @@ app.register(webhookClerk, {
 })
 app.register(purchaseOrderRoutes, {
     prefix: '/purchaseorder'
+})
+app.register(assetRoutes, {
+    prefix: '/assets'
 })
 
 app.listen({ port: port || 3000, host: '0.0.0.0' }, function (err, address) {
