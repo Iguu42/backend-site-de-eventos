@@ -27,11 +27,12 @@ function registerUserRoute(fastify: FastifyInstance) {
 };
 
 function updateUserRoute(fastify: FastifyInstance) {
-    fastify.patch<{ Body: UserUpdate, Params: { id: string } }>('/:id', async (req, reply) => {
-        const { id } = req.params;
+    fastify.addHook("preHandler", jwtValidator);
+    fastify.patch<{ Body: UserUpdate, Params: { externalId: string } }>('/', async (req, reply) => {
+        const externalId = req.params.externalId;
         const { firstName, lastName, email, role, cpf, phone } = req.body;
         try {
-            const data = await userUseCase.update({ id, firstName, lastName, email, role, cpf, phone });
+            const data = await userUseCase.update({ id: externalId, firstName, lastName, email, role, cpf, phone });
             reply.code(200).send(data);
         } catch (error) {
             reply.code(400).send(error);
@@ -53,11 +54,10 @@ function deleteUserRoute(fastify: FastifyInstance) {
 
 function getUserRoute(fastify: FastifyInstance) {
     fastify.addHook("preHandler", jwtValidator);
-    fastify.get<{ Params: { userId: string } }>('/', async (req, reply) => {
-        const externalId = req.params.userId;
+    fastify.get<{ Params: { externalId: string } }>('/', async (req, reply) => {
+        const externalId = req.params.externalId;
         try {
             const data = await userUseCase.findUserByExternalOrId(externalId);
-            console.log(data);
             reply.code(200).send(data);
         } catch (error) {
             reply.code(404).send(error);
