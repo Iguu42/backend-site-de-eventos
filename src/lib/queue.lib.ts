@@ -1,5 +1,5 @@
 import Bull, { Job } from "bull";
-import 'dotenv/config';
+import { env } from '../env';
 import { PurchaseOrderUseCase } from "../usecases/purchaseOrder.usecases";
 
 interface QueueConfig {
@@ -26,10 +26,10 @@ export function createQueues(): void {
     const { name, processJob } = queueConfig;
     queues[name] = new Bull(name, {
       redis: {
-        host: process.env.REDIS_HOST as string,
-        port: parseInt(process.env.REDIS_PORT as string),
-        password: process.env.REDIS_PASSWORD as string,
-        username: process.env.REDIS_USERNAME as string,
+        host: env.REDIS_HOST as string,
+        port: parseInt(env.REDIS_PORT as string),
+        password: env.REDIS_PASSWORD as string,
+        username: env.REDIS_USERNAME as string,
         
       }
     });
