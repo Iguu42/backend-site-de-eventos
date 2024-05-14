@@ -87,7 +87,7 @@ model Attraction {
   id          String     @id @default(uuid())
   eventId     String
   name        String
-  url         String
+  imageUrl    String
   description String?
   event       Event   @relation(fields: [eventId], references: [id])
   @@map("attractions")
