@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "tsx watch --env-file .env src/index.ts",
-    "start:prd": "tsx watch --env-file .env.prd src/index.ts",
+    "start": "tsx watch src/index.ts",
+    "prd": "tsx watch --env-file .env.prd src/index.ts",
+    "dev": "tsx watch --env-file .env src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
   },
