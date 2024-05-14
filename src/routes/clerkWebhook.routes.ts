@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Webhook } from "svix";
 import { UserUseCase } from "../usecases/user.usecase";
 import { UserRepositoryPrisma } from "../repositories/user.repository";
-import 'dotenv/config'
+import { env } from '../env';
 
 export async function webhookClerk(fastify: FastifyInstance) {
   const userRepositoryPrisma = new UserRepositoryPrisma();
@@ -10,7 +10,7 @@ export async function webhookClerk(fastify: FastifyInstance) {
 
   fastify.post('/api/webhooks', async (request, reply) => {
     // Check if the 'Signing Secret' from the Clerk Dashboard was correctly provided
-    const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+    const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
 
     if (!WEBHOOK_SECRET) {
       throw new Error("You need a WEBHOOK_SECRET in your .env");

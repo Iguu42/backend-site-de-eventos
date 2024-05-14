@@ -1,4 +1,5 @@
-import 'dotenv/config';
+
+import { env } from '../src/env';
 import fastify from "fastify";
 import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
@@ -9,7 +10,7 @@ import { assetRoutes} from "./routes/asset.routes";
 import { FastifyInstance } from "fastify/types/instance";
 
 const app: FastifyInstance = fastify({ logger: true });
-const port = parseInt(process.env.PORT as string);
+const port = parseInt(env.PORT as string);
 
 app.register(cors, {
     origin: [

@@ -3,14 +3,15 @@ import path from 'path';
 import multerLib from '../lib/multer.lib';
 import mime from 'mime';
 import fs from 'fs';
+import { env } from '../env';
 class S3Storage {
     private client: S3;
 
     constructor(){
         this.client = new S3({
-            region: process.env.AWS_REGION,
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            region: env.AWS_REGION,
+            accessKeyId: env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY
         });
     }
 
@@ -26,7 +27,7 @@ class S3Storage {
         const fileContent = await fs.promises.readFile(originalPath);
 
         await this.client.putObject({
-            Bucket: process.env.AWS_BUCKET as string, 
+            Bucket: env.AWS_BUCKET as string, 
             Key: filename,
             ACL: 'public-read',
             Body: fileContent,
@@ -37,7 +38,7 @@ class S3Storage {
     }
     async deleteFile(filename: string): Promise<void> {
         await this.client.deleteObject({
-            Bucket: process.env.AWS_BUCKET as string,
+            Bucket: env.AWS_BUCKET as string,
             Key: filename
         }).promise();
     }
