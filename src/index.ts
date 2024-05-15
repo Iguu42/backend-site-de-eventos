@@ -5,6 +5,7 @@ import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
 import { webhookClerk } from "./routes/clerkWebhook.routes";
 import { purchaseOrderRoutes } from "./routes/purchaseOrder.routes";
+import { attractionRoutes } from './routes/attraction.routes';
 import cors from '@fastify/cors'
 import { assetRoutes} from "./routes/asset.routes";
 import { FastifyInstance } from "fastify/types/instance";
@@ -35,6 +36,9 @@ app.register(purchaseOrderRoutes, {
 })
 app.register(assetRoutes, {
     prefix: '/assets'
+})
+app.register(attractionRoutes, {
+    prefix: '/attractions'
 })
 
 app.listen({ port: port || 3000, host: '0.0.0.0' }, function (err, address) {
