@@ -1,14 +1,24 @@
-import 'dotenv/config';
+
+import { env } from '../src/env';
 import fastify from "fastify";
 import { userRoutes } from './routes/user.routes';
 import { eventRoutes } from "./routes/event.routes";
 import { webhookClerk } from "./routes/clerkWebhook.routes";
 import { purchaseOrderRoutes } from "./routes/purchaseOrder.routes";
+import { attractionRoutes } from './routes/attraction.routes';
+import cors from '@fastify/cors'
 import { assetRoutes} from "./routes/asset.routes";
 import { FastifyInstance } from "fastify/types/instance";
 
 const app: FastifyInstance = fastify({ logger: true });
-const port = parseInt(process.env.PORT as string);
+const port = parseInt(env.PORT as string);
+
+app.register(cors, {
+    origin: [
+      'http://localhost:5173',
+      'https://site-de-eventos-frontend.vercel.app'
+    ]
+  });
 
 app.register(userRoutes, {
     prefix: '/users',
@@ -26,6 +36,9 @@ app.register(purchaseOrderRoutes, {
 })
 app.register(assetRoutes, {
     prefix: '/assets'
+})
+app.register(attractionRoutes, {
+    prefix: '/attractions'
 })
 
 app.listen({ port: port || 3000, host: '0.0.0.0' }, function (err, address) {

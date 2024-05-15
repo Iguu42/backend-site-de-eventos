@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
-import 'dotenv/config'
+import { env } from '../env';
 
 export async function jwtValidator(req: any, reply: any) {
   try {
 
     const token = req.headers['authorization'];
-    const jwtUri = process.env.JWT_PUBLIC_KEY!;
+    const jwtUri = env.JWT_PUBLIC_KEY!;
 
 
     const jwksClientInstance = jwksClient({
@@ -34,8 +34,8 @@ export async function jwtValidator(req: any, reply: any) {
       });
     });
 
-    const userId = decodedToken.sub;
-    req.userId = userId;
+    const externalId = decodedToken.sub;
+    req.params.externalId = externalId
 
     return;
 
