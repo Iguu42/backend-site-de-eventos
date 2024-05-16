@@ -8,140 +8,150 @@ datasource db {
 }
 
 model User {
-  id          String             @id @default(uuid())
-  externalId  String             @unique
-  firstName   String
-  lastName    String
-  email       String             @unique
-  phone       String?
-  cpf         String?            @unique
-  role        String
-  createdEvents Event[]
-  purchaseOrders PurchaseOrder[]
+  id              String            @id @default(uuid())
+  externalId      String            @unique
+  firstName       String
+  lastName        String
+  email           String            @unique
+  phone           String?
+  cpf             String?           @unique
+  role            String
+  createdEvents   Event[]
+  purchaseOrders  PurchaseOrder[]
   eventOrganizers EventOrganizers[]
-  waitingLists WaitingList[]
+  waitingLists    WaitingList[]
+
   @@map("users")
 }
 
 model Event {
-  id                 String             @id @default(uuid())
-  title              String
-  description        String
-  location           String
-  capacity           Int
-  categoryId         String
-  status             String?
-  startDate          DateTime       
-  endDate            DateTime        
-  salesStartDate     DateTime?
-  showStartDate      DateTime?
-  format             String
-  producer           String
-  ageRating          Int
-  price              String?
-  additionalDetails  String
-  creatorId          String
-  category           EventCategory?  @relation(fields: [categoryId], references: [id])
-  creator            User            @relation(fields: [creatorId], references: [id])
-  purchaseOrders     PurchaseOrder[]
-  eventOrganizers    EventOrganizers[]
-  ticketTypes        TicketType[]
-  attractions        Attraction[]
-  assets             Asset[]
-  waitingLists       WaitingList[]
+  id                String            @id @default(uuid())
+  title             String
+  description       String
+  location          String
+  capacity          Int
+  categoryId        String
+  status            String?
+  startDate         DateTime
+  endDate           DateTime
+  salesStartDate    DateTime?
+  showStartDate     DateTime?
+  format            String
+  producer          String
+  ageRating         Int
+  price             String?
+  additionalDetails String
+  creatorId         String
+  category          EventCategory?    @relation(fields: [categoryId], references: [id])
+  creator           User              @relation(fields: [creatorId], references: [id])
+  purchaseOrders    PurchaseOrder[]
+  eventOrganizers   EventOrganizers[]
+  ticketTypes       TicketType[]
+  attractions       Attraction[]
+  assets            Asset[]
+  waitingLists      WaitingList[]
+
   @@map("events")
 }
 
 model Ticket {
-  id                String            @id @default(uuid())
-  ticketTypeId      String
-  purchaseOrderId   String
-  participantName   String
-  participantEmail  String
-  price             Float
-  status            String
-  cancelledBy       String?
-  purchaseDate      DateTime?
-  seatLocation      String?
-  ticketType        TicketType     @relation(fields: [ticketTypeId], references: [id])
-  purchaseOrder     PurchaseOrder  @relation(fields: [purchaseOrderId], references: [id])
+  id               String        @id @default(uuid())
+  ticketTypeId     String
+  purchaseOrderId  String
+  participantName  String
+  participantEmail String
+  price            Float
+  status           String
+  cancelledBy      String?
+  purchaseDate     DateTime?
+  seatLocation     String?
+  ticketType       TicketType    @relation(fields: [ticketTypeId], references: [id])
+  purchaseOrder    PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+
   @@map("tickets")
 }
 
 model PurchaseOrder {
-  id           String        @id @default(uuid())
-  userId       String
-  eventId      String
-  totalPrice   Float
+  id              String    @id @default(uuid())
+  userId          String
+  eventId         String
+  totalPrice      Float
   quantityTickets Int
-  status       String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime? @updatedAt
-  user         User       @relation(fields: [userId], references: [id])
-  event        Event      @relation(fields: [eventId], references: [id])
-  tickets      Ticket[]
+  status          String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
+  user            User      @relation(fields: [userId], references: [id])
+  event           Event     @relation(fields: [eventId], references: [id])
+  tickets         Ticket[]
+
   @@map("purchaseOrders")
 }
 
 model Attraction {
-  id          String     @id @default(uuid())
+  id          String  @id @default(uuid())
   eventId     String
   name        String
   imageUrl    String
   description String?
   event       Event   @relation(fields: [eventId], references: [id])
+
   @@map("attractions")
 }
 
 model EventCategory {
-  id          String    @id @default(uuid())
-  description String?
+  id          String  @id @default(uuid())
+  description String
   isActive    Boolean @default(true)
   events      Event[]
+
   @@map("eventCategories")
 }
 
 model EventOrganizers {
   eventId String
   userId  String
-  event   Event @relation(fields: [eventId], references: [id])
-  user    User  @relation(fields: [userId], references: [id])
+  event   Event  @relation(fields: [eventId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+
   @@id([eventId, userId])
   @@map("eventOrganizers")
 }
 
 model TicketType {
-  id              String     @id @default(uuid())
-  eventId         String
-  description     String
-  price           Float
-  quantity        Int
-  salesStartDate  DateTime?
-  salesEndDate    DateTime?
-  isActive        Boolean @default(true)
-  event           Event   @relation(fields: [eventId], references: [id])
-  tickets         Ticket[]
+  id             String    @id @default(uuid())
+  eventId        String
+  description    String
+  price          Float
+  quantity       Int
+  salesStartDate DateTime?
+  salesEndDate   DateTime?
+  isActive       Boolean   @default(true)
+  event          Event     @relation(fields: [eventId], references: [id])
+  tickets        Ticket[]
+
   @@map("ticketTypes")
 }
 
 model Asset {
-  id          String    @id @default(uuid())
+  id          String  @id @default(uuid())
   eventId     String
   type        String
   url         String
   description String?
-  event       Event  @relation(fields: [eventId], references: [id])
+  event       Event   @relation(fields: [eventId], references: [id])
+
   @@map("assets")
 }
 
 model WaitingList {
-  id              String     @id @default(uuid())
+  id              String    @id @default(uuid())
   eventId         String
   userId          String
   timestamp       DateTime
   status          String
   offerExpiration DateTime?
-  event           Event   @relation(fields: [eventId], references: [id])
-  user            User    @relation(fields: [userId], references: [id])
+  event           Event     @relation(fields: [eventId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
+
   @@map("waitingLists")
 }

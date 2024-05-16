@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { AttractionRepositoryPrisma } from "../repositories/attraction.interface";
+import { AttractionRepositoryPrisma } from "../repositories/attraction.repository";
 import { AttractionUseCase } from "../usecases/attraction.usecases";
 import { AttractionCreate, AttractionUpdate } from "../interfaces/attraction.interface";
 
