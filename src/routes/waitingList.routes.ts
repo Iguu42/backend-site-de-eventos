@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { WaitingListCreate, WaitingListUpdate } from "../interfaces/waitingList.interface";
 import { WaitingListUseCase } from "../usecases/waitingList.usecase";
-import { date } from "zod";
 
 const waitingListUseCase = new WaitingListUseCase();
 
@@ -26,9 +25,8 @@ function createWaitingListRoute(fastify: FastifyInstance) {
 }
 
 function updateWaitingListRoute(fastify: FastifyInstance) {
-    fastify.patch<{ Body: WaitingListUpdate, Params: { id: string } }>('/', async (req, reply) => {
-        const id = req.params.id;
-        const { eventId, userId, timestamp, status, offerExpiration } = req.body;
+    fastify.patch<{ Body: WaitingListUpdate }>('/', async (req, reply) => {
+        const { id, eventId, userId, timestamp, status, offerExpiration } = req.body;
         try {
             const data = await waitingListUseCase.update({ id, eventId, userId, timestamp, status, offerExpiration });
             reply.code(200).send(data);

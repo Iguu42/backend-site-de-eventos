@@ -40,7 +40,7 @@ class WaitingListRepositoryPrisma implements WaitingListRepository {
                 data: {
                     eventId: data.eventId,
                     userId: data.userId,
-                    timestamp: data.timestamp,
+                    timestamp: new Date(),
                     status: data.status,
                     offerExpiration: data.offerExpiration || null
                 }
