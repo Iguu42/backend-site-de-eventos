@@ -10,6 +10,7 @@ import cors from '@fastify/cors'
 import { assetRoutes } from "./routes/asset.routes";
 import { FastifyInstance } from "fastify/types/instance";
 import { eventCategoryRoutes } from './routes/eventCategory.routes';
+import { waitingListRoutes } from './routes/waitingList.routes';
 
 const app: FastifyInstance = fastify({ logger: true });
 const port = parseInt(env.PORT as string);
@@ -43,6 +44,10 @@ app.register(attractionRoutes, {
 })
 app.register(eventCategoryRoutes, {
     prefix: '/eventcategories'
+})
+
+app.register(waitingListRoutes, {
+    prefix: '/waitinglists'
 })
 
 app.listen({ port: port || 3000, host: '0.0.0.0' }, function (err, address) {
