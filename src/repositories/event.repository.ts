@@ -1,5 +1,5 @@
 import { prisma } from "../db/prisma-client";
-import { Event, EventCreate, EventRepository, EventsGetByCategory } from "../interfaces/event.interface";
+import { Event, EventCreate, EventRepository, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
 
 class EventRepositoryPrisma implements EventRepository{
     async create(data: EventCreate): Promise<Event>{
@@ -81,6 +81,32 @@ class EventRepositoryPrisma implements EventRepository{
             });
         } catch (error) {
             throw new Error('Unable to get events by category');
+        }
+    }
+    async getRecentEvents(): Promise<RecentEvents[]>{
+        try {
+            return await prisma.event.findMany({
+                take: 5,
+                orderBy:{
+                    startDate: 'desc'
+                },
+                select:{
+                    id: true,
+                    title: true,
+                    location: true,
+                    startDate: true,
+                    assets: {
+                        select:{
+                            id: true,
+                            url: true,
+                            type: true,
+                            description: true
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            throw new Error('Unable to get recent events');
         }
     }
 }

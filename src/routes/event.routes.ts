@@ -10,6 +10,7 @@ export async function eventRoutes(fastify:FastifyInstance) {
     registerEventRoute(fastify);
     getEventById(fastify);
     getEventsByCategory(fastify);
+    getRecentEvents(fastify);
 }
 
 function registerEventRoute(fastify: FastifyInstance){
@@ -41,6 +42,16 @@ function getEventsByCategory(fastify: FastifyInstance){
         const {categoryId} = req.params;
         try {
             const data = await eventUseCase.getEventsByCategory(categoryId);
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    })
+}
+function getRecentEvents(fastify: FastifyInstance){
+    fastify.get('/recent', async(req, reply)=>{
+        try {
+            const data = await eventUseCase.getRecentEvents();
             reply.code(200).send(data);
         } catch (error) {
             reply.code(404).send(error);
