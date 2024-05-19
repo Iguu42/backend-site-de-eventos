@@ -1,4 +1,4 @@
-import { Event, EventCreate, EventRepository } from "../interfaces/event.interface";
+import { Event, EventCreate, EventRepository, EventsGetByCategory } from "../interfaces/event.interface";
 
 interface IEventUseCase {
     create(eventData: EventCreate): Promise<Event>;
@@ -13,6 +13,13 @@ class EventUseCase {
 
     async create(eventData: EventCreate): Promise<Event> {
         return await this.eventRepository.create(eventData);
+    }
+
+    async getEventById(id: string): Promise<Event | null> {
+        return await this.eventRepository.getEventById(id);
+    }
+    async getEventsByCategory(categoryId: string): Promise<EventsGetByCategory[]> {
+        return await this.eventRepository.getEventsByCategory(categoryId);
     }
 }
 

@@ -8,6 +8,8 @@ const eventUseCase = new EventUseCase(eventRepository);
 
 export async function eventRoutes(fastify:FastifyInstance) {
     registerEventRoute(fastify);
+    getEventById(fastify);
+    getEventsByCategory(fastify);
 }
 
 function registerEventRoute(fastify: FastifyInstance){
@@ -21,5 +23,30 @@ function registerEventRoute(fastify: FastifyInstance){
     }
     })
 }
+
+function getEventById(fastify: FastifyInstance){
+    fastify.get<{Params: {id: string}}>('/:id', async(req, reply)=>{
+        const {id} = req.params;
+        try {
+            const data = await eventUseCase.getEventById(id);
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    })
+}
+
+function getEventsByCategory(fastify: FastifyInstance){
+    fastify.get<{Params: {categoryId: string}}>('/category/:categoryId', async(req, reply)=>{
+        const {categoryId} = req.params;
+        try {
+            const data = await eventUseCase.getEventsByCategory(categoryId);
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    })
+}
+
 
 
