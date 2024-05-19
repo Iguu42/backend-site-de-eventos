@@ -33,9 +33,16 @@ export interface EventsGetByCategory{
     location: string;
     startDate: Date;
 }
+export interface RecentEvents{
+    id: string;
+    title: string;
+    location: string;
+    startDate: Date;
+}
 
 export interface EventRepository {
     getEventsByCategory(categoryId: string): Promise<EventsGetByCategory[]>;
     create(data: EventCreate): Promise<Event>;
     getEventById(id: string): Promise<Event | null>;
+    getRecentEvents(): Promise<RecentEvents[]>;
 }
