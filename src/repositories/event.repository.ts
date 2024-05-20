@@ -50,6 +50,14 @@ class EventRepositoryPrisma implements EventRepository{
                             type: true,
                             description: true
                         }
+                    },
+                    attractions: {
+                        select: {
+                            id: true,
+                            name: true,
+                            description: true,
+                            imageUrl: true
+                        }
                     }
                 }
             });
