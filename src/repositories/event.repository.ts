@@ -1,11 +1,11 @@
 import { prisma } from "../db/prisma-client";
 import { Event, EventCreate, EventRepository, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
 
-class EventRepositoryPrisma implements EventRepository{
-    async create(data: EventCreate): Promise<Event>{
+class EventRepositoryPrisma implements EventRepository {
+    async create(data: EventCreate): Promise<Event> {
         try {
             return await prisma.event.create({
-                data:{
+                data: {
                     title: data.title,
                     description: data.description,
                     location: data.location,
@@ -25,13 +25,13 @@ class EventRepositoryPrisma implements EventRepository{
         }
     }
 
-    async getEventById(id: string): Promise<Event | null>{
+    async getEventById(id: string): Promise<Event | null> {
         try {
             return await prisma.event.findUnique({
-                where:{
+                where: {
                     id
                 },
-                include:{
+                include: {
                     ticketTypes: {
                         select: {
                             id: true,
@@ -43,7 +43,7 @@ class EventRepositoryPrisma implements EventRepository{
                             isActive: true
                         }
                     },
-                    assets : {
+                    assets: {
                         select: {
                             id: true,
                             url: true,
@@ -58,6 +58,15 @@ class EventRepositoryPrisma implements EventRepository{
                             description: true,
                             imageUrl: true
                         }
+                    },
+                    producers: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            description: true,
+                            imageUrl: true
+                        }
                     }
                 }
             });
@@ -65,20 +74,20 @@ class EventRepositoryPrisma implements EventRepository{
             throw new Error('Unable to get event by id');
         }
     }
-    async getEventsByCategory(categoryId: string): Promise<EventsGetByCategory[]>{
+    async getEventsByCategory(categoryId: string): Promise<EventsGetByCategory[]> {
         try {
             return await prisma.event.findMany({
-                where:{
+                where: {
                     categoryId
                 },
 
-                select:{
+                select: {
                     id: true,
                     title: true,
                     location: true,
                     startDate: true,
                     assets: {
-                        select:{
+                        select: {
                             id: true,
                             url: true,
                             type: true,
@@ -91,20 +100,20 @@ class EventRepositoryPrisma implements EventRepository{
             throw new Error('Unable to get events by category');
         }
     }
-    async getRecentEvents(): Promise<RecentEvents[]>{
+    async getRecentEvents(): Promise<RecentEvents[]> {
         try {
             return await prisma.event.findMany({
                 take: 5,
-                orderBy:{
+                orderBy: {
                     startDate: 'desc'
                 },
-                select:{
+                select: {
                     id: true,
                     title: true,
                     location: true,
                     startDate: true,
                     assets: {
-                        select:{
+                        select: {
                             id: true,
                             url: true,
                             type: true,
@@ -119,4 +128,4 @@ class EventRepositoryPrisma implements EventRepository{
     }
 }
 
-export {EventRepositoryPrisma };
+export { EventRepositoryPrisma };
