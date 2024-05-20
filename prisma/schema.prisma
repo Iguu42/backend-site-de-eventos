@@ -42,6 +42,7 @@ model Event {
   price             String?
   additionalDetails String
   creatorId         String
+  producerId        String
   category          EventCategory?    @relation(fields: [categoryId], references: [id])
   creator           User              @relation(fields: [creatorId], references: [id])
   purchaseOrders    PurchaseOrder[]
@@ -50,6 +51,7 @@ model Event {
   attractions       Attraction[]
   assets            Asset[]
   waitingLists      WaitingList[]
+  producers         Producer          @relation(fields: [producerId], references: [id])
 
   @@map("events")
 }
@@ -154,4 +156,13 @@ model WaitingList {
   user            User      @relation(fields: [userId], references: [id])
 
   @@map("waitingLists")
+}
+
+model Producer {
+  id          String  @id @default(uuid())
+  name        String
+  email       String
+  description String?
+  imageUrl    String
+  Event       Event[]
 }
