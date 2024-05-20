@@ -12,6 +12,7 @@ import { FastifyInstance } from "fastify/types/instance";
 import { eventCategoryRoutes } from './routes/eventCategory.routes';
 import { eventOrganizersRoutes } from './routes/eventOrganizers.routes';
 import { waitingListRoutes } from './routes/waitingList.routes';
+import { producerRoutes } from './routes/producer.routes';
 
 const app: FastifyInstance = fastify({ logger: true });
 const port = parseInt(env.PORT as string);
@@ -53,7 +54,9 @@ app.register(eventOrganizersRoutes, {
 app.register(waitingListRoutes, {
     prefix: '/waitinglists'
 })
-
+app.register(producerRoutes, {
+    prefix: '/producers'
+})
 app.listen({ port: port || 3000, host: '0.0.0.0' }, function (err, address) {
     if (err) {
         app.log.error(err)
