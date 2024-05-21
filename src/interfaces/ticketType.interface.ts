@@ -8,7 +8,6 @@ export interface TicketType {
     salesEndDate: Date | null;
     isActive: boolean;
 }
-
 export interface TicketTypeCreate {
     eventId: string;
     description: string;
@@ -20,5 +19,5 @@ export interface TicketTypeCreate {
 }
 
 export interface TicketTypeRepository {
-create(data: TicketTypeCreate): Promise<TicketType>;
+    create(data: TicketTypeCreate): Promise<TicketType>;
 }

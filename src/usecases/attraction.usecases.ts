@@ -1,6 +1,6 @@
 import { Attraction } from "@prisma/client";
 import { AttractionCreate, AttractionRepository, AttractionUpdate } from "../interfaces/attraction.interface";
-import { AttractionRepositoryPrisma } from "../repositories/attraction.interface";
+import { AttractionRepositoryPrisma } from "../repositories/attraction.repository";
 
 class AttractionUseCase {
     private attractionRepository: AttractionRepository;
