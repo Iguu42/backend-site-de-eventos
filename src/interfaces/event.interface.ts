@@ -2,7 +2,6 @@ export interface Event{
     id: string;
     title: string;
     description: string;
-    location: string;
     capacity: number;
     categoryId: string;
     startDate: Date;
@@ -12,11 +11,11 @@ export interface Event{
     ageRating: number;
     additionalDetails: string;
     creatorId: string;
+    addressId: string;
 }
 export interface EventCreate{
     title: string;
     description: string;
-    location: string;
     capacity: number;
     categoryId: string;
     startDate: Date;
@@ -26,17 +25,18 @@ export interface EventCreate{
     ageRating: number;
     additionalDetails: string;
     creatorId: string;
+    addressId: string;
 }
 export interface EventsGetByCategory{
     id: string;
     title: string;
-    location: string;
+    addressId: string;
     startDate: Date;
 }
 export interface RecentEvents{
     id: string;
     title: string;
-    location: string;
+    addressId: string;
     startDate: Date;
 }
 

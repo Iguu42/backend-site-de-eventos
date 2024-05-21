@@ -8,7 +8,7 @@ class EventRepositoryPrisma implements EventRepository {
                 data: {
                     title: data.title,
                     description: data.description,
-                    location: data.location,
+                    addressId: data.addressId,
                     capacity: data.capacity,
                     categoryId: data.categoryId,
                     startDate: data.startDate,
@@ -84,7 +84,7 @@ class EventRepositoryPrisma implements EventRepository {
                 select: {
                     id: true,
                     title: true,
-                    location: true,
+                    addressId: true,
                     startDate: true,
                     assets: {
                         select: {
@@ -110,7 +110,7 @@ class EventRepositoryPrisma implements EventRepository {
                 select: {
                     id: true,
                     title: true,
-                    location: true,
+                    addressId: true,
                     startDate: true,
                     assets: {
                         select: {

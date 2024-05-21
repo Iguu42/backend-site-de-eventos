@@ -28,7 +28,6 @@ model Event {
   id                String            @id @default(uuid())
   title             String
   description       String
-  location          String
   capacity          Int
   categoryId        String
   status            String?
@@ -42,6 +41,7 @@ model Event {
   additionalDetails String
   creatorId         String
   producerId        String
+  addressId         String
   category          EventCategory?    @relation(fields: [categoryId], references: [id])
   creator           User              @relation(fields: [creatorId], references: [id])
   purchaseOrders    PurchaseOrder[]
@@ -51,6 +51,7 @@ model Event {
   assets            Asset[]
   waitingLists      WaitingList[]
   producers         Producer          @relation(fields: [producerId], references: [id])
+  Address           Address           @relation(fields: [addressId], references: [id])
 
   @@map("events")
 }
@@ -164,4 +165,18 @@ model Producer {
   description String?
   imageUrl    String
   Event       Event[]
+}
+
+model Address {
+  id          String  @id @default(uuid())
+  street      String
+  number      String
+  complement  String?
+  neighborhood String
+  city        String
+  state       String
+  zipCode     String
+  Event       Event[]
+
+  @@map("addresses")
 }
