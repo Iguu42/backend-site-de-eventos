@@ -8,7 +8,7 @@ export interface Event{
     startDate: Date;
     endDate: Date;
     format: string;
-    producer: string;
+    producerId: string;
     ageRating: number;
     additionalDetails: string;
     creatorId: string;
@@ -22,7 +22,7 @@ export interface EventCreate{
     startDate: Date;
     endDate: Date;
     format: string;
-    producer: string;
+    producerId: string;
     ageRating: number;
     additionalDetails: string;
     creatorId: string;

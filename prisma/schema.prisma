@@ -37,7 +37,6 @@ model Event {
   salesStartDate    DateTime?
   showStartDate     DateTime?
   format            String
-  producer          String
   ageRating         Int
   price             String?
   additionalDetails String

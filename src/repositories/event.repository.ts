@@ -14,10 +14,10 @@ class EventRepositoryPrisma implements EventRepository {
                     startDate: data.startDate,
                     endDate: data.endDate,
                     format: data.format,
-                    producer: data.producer,
                     ageRating: data.ageRating,
                     additionalDetails: data.additionalDetails,
-                    creatorId: data.creatorId
+                    creatorId: data.creatorId,
+                    producerId: data.producerId
                 }
             })
         } catch (error) {
