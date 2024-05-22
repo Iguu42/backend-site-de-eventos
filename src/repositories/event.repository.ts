@@ -103,7 +103,7 @@ class EventRepositoryPrisma implements EventRepository {
     async getRecentEvents(): Promise<RecentEvents[]> {
         try {
             return await prisma.event.findMany({
-                take: 5,
+                take: 10,
                 orderBy: {
                     startDate: 'desc'
                 },
