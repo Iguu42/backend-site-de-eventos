@@ -24,6 +24,9 @@ class EventUseCase {
     async getRecentEvents(): Promise<RecentEvents[]> {
         return await this.eventRepository.getRecentEvents();
     }
+    async getEventsByCreatorId(creatorId: string): Promise<Event[]> {
+        return await this.eventRepository.getEventsByCreatorId(creatorId);
+    }
 }
 
 export { EventUseCase };
