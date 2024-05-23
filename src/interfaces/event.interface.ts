@@ -46,4 +46,6 @@ export interface EventRepository {
     getEventById(id: string): Promise<Event | null>;
     getRecentEvents(): Promise<RecentEvents[]>;
     getEventsByCreatorId(creatorId: string): Promise<Event[]>;
+    getEventsByExternalId(externalId: string): Promise<Event[]>;
+    findEventsByExternalOrId(id: string): Promise<Event | null>;
 }

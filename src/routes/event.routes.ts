@@ -3,6 +3,7 @@ import { EventRepositoryPrisma } from "../repositories/event.repository";
 import { EventUseCase } from "../usecases/event.usecase";
 import { EventCreate } from "../interfaces/event.interface";
 import { get } from "http";
+import { jwtValidator } from "../middlewares/auth.middlewares";
 
 const eventRepository = new EventRepositoryPrisma();
 const eventUseCase = new EventUseCase(eventRepository);
@@ -13,6 +14,7 @@ export async function eventRoutes(fastify: FastifyInstance) {
     getEventsByCategory(fastify);
     getRecentEvents(fastify);
     getEventsByCreatorId(fastify);
+    getEventsByExternalId(fastify);
 }
 
 function registerEventRoute(fastify: FastifyInstance) {
@@ -71,3 +73,16 @@ function getEventsByCreatorId(fastify: FastifyInstance) {
         }
     })
 }
+function getEventsByExternalId(fastify: FastifyInstance) {
+    //fastify.addHook("preHandler", jwtValidator);
+    fastify.get<{ Params: { externalId: string } }>('/events', async (req, reply) => {
+        const { externalId } = req.params;
+        try {
+            const data = await eventUseCase.getEventsByExternalId("user_2gqeavZBoopxrOkHhfsjkYMGrsF");
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    });
+}
+//"user_2gqeavZBoopxrOkHhfsjkYMGrsF"

@@ -27,6 +27,16 @@ class EventUseCase {
     async getEventsByCreatorId(creatorId: string): Promise<Event[]> {
         return await this.eventRepository.getEventsByCreatorId(creatorId);
     }
+    async getEventsByExternalId(externalId: string): Promise<Event[]> {
+        const events = await this.eventRepository.getEventsByExternalId(externalId);
+        if (!events || events.length === 0) throw new Error('Events not found');
+        return events;
+    }
+    async findEventsByExternalOrId(id: string): Promise<Event | null> {
+        const data = await this.eventRepository.findEventsByExternalOrId(id);
+        if (!data) throw new Error('User not found')
+        return data;
+    }
 }
 
 export { EventUseCase };
