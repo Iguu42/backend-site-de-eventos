@@ -157,6 +157,9 @@ class UserRepositoryPrisma implements UserRepository {
               in: purchaseOrders.map((po) => po.eventId),
             },
           },
+          select: {
+            assets: true,
+          }
         });
         return events;
 
