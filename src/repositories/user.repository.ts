@@ -125,5 +125,45 @@ class UserRepositoryPrisma implements UserRepository {
       throw new Error("Failed to find user by external id or id.");
     }
   }
-}
+
+  async findAllEventsByExternalId(externalId: string): Promise<any> {
+    try {
+      return await prisma.$transaction(async (prisma) => {
+
+        const user = await prisma.user.findFirst({
+          where: {
+            externalId,
+          },
+          select: {
+            id: true,
+          },
+        });
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const purchaseOrders = await prisma.purchaseOrder.findMany({
+          where: {
+            userId: user.id,
+          },
+          select: {
+            id: true,
+            eventId: true,
+            status: true,
+          },
+        });
+        const events = await prisma.event.findMany({
+          where: {
+            id: {
+              in: purchaseOrders.map((po) => po.eventId),
+            },
+          },
+        });
+        return events;
+
+      });
+    } catch (error) {
+      
+    }
+
+}}
 export { UserRepositoryPrisma };

@@ -12,6 +12,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     updateUserRoute(fastify);
     deleteUserRoute(fastify);
     getUserRoute(fastify);
+    getAllEventsByExternalId(fastify);
 }
 
 function registerUserRoute(fastify: FastifyInstance) {
@@ -58,6 +59,18 @@ function getUserRoute(fastify: FastifyInstance) {
         const externalId = req.params.externalId;
         try {
             const data = await userUseCase.findUserByExternalOrId(externalId);
+            reply.code(200).send(data);
+        } catch (error) {
+            reply.code(404).send(error);
+        }
+    });
+}
+function getAllEventsByExternalId(fastify: FastifyInstance) {
+    fastify.addHook("preHandler", jwtValidator);
+    fastify.get<{ Params: { externalId: string } }>('/events', async (req, reply) => {
+        const externalId = req.params.externalId;
+        try {
+            const data = await userUseCase.findAllEventsByExternalId(externalId);
             reply.code(200).send(data);
         } catch (error) {
             reply.code(404).send(error);
