@@ -30,6 +30,7 @@ export interface UserUpdateByClerk {
 }
 
 export interface UserRepository {
+    findAllEventsByExternalId(externalId: string): any;
     create(data: UserCreate): Promise<User>;
     findByEmail(email: string): Promise<User | null>;
     findUserByExternalId(externalId: string): Promise<User | null>;

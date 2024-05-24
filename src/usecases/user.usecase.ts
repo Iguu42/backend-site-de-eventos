@@ -49,6 +49,9 @@ class UserUseCase {
         if (!data) throw new Error('User not found')
         return data;
     }
+    async findAllEventsByExternalId(externalId: string): Promise<any> {
+        return await this.userRepository.findAllEventsByExternalId(externalId);
+    }
 
 };
 export { UserUseCase };
