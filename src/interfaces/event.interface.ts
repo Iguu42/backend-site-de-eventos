@@ -40,12 +40,21 @@ export interface RecentEvents {
     startDate: Date;
 }
 
+export interface EventsByCreatorId {
+    id: string;
+    title: string;
+    addressId: string;
+    startDate: Date;
+    status: string;
+
+}
+
 export interface EventRepository {
     getEventsByCategory(categoryId: string): Promise<EventsGetByCategory[]>;
     create(data: EventCreate): Promise<Event>;
     getEventById(id: string): Promise<Event | null>;
     getRecentEvents(): Promise<RecentEvents[]>;
-    getEventsByCreatorId(creatorId: string): Promise<Event[]>;
+    getEventsByCreatorId(creatorId: string): Promise<EventsByCreatorId[]>;
     getEventsByExternalId(externalId: string): Promise<Event[]>;
     findEventsByExternalOrId(id: string): Promise<Event | null>;
 }

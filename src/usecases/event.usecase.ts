@@ -1,4 +1,4 @@
-import { Event, EventCreate, EventRepository, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
+import { Event, EventCreate, EventRepository, EventsByCreatorId, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
 
 interface IEventUseCase {
     create(eventData: EventCreate): Promise<Event>;
@@ -24,7 +24,7 @@ class EventUseCase {
     async getRecentEvents(): Promise<RecentEvents[]> {
         return await this.eventRepository.getRecentEvents();
     }
-    async getEventsByCreatorId(creatorId: string): Promise<Event[]> {
+    async getEventsByCreatorId(creatorId: string): Promise<EventsByCreatorId[]> {
         return await this.eventRepository.getEventsByCreatorId(creatorId);
     }
     async getEventsByExternalId(externalId: string): Promise<Event[]> {

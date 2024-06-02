@@ -1,5 +1,5 @@
 import { prisma } from "../db/prisma-client";
-import { Event, EventCreate, EventRepository, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
+import { Event, EventCreate, EventRepository, EventsByCreatorId, EventsGetByCategory, RecentEvents } from "../interfaces/event.interface";
 
 class EventRepositoryPrisma implements EventRepository {
     async create(data: EventCreate): Promise<Event> {
@@ -126,13 +126,40 @@ class EventRepositoryPrisma implements EventRepository {
             throw new Error('Unable to get recent events');
         }
     }
-    async getEventsByCreatorId(creatorId: string): Promise<Event[]> {
+    async getEventsByCreatorId(creatorId: string): Promise<EventsByCreatorId[]> {
         try {
             return await prisma.event.findMany({
                 where: {
                     creatorId
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    addressId: true,
+                    startDate: true,
+                    status: true,
+                    assets: {
+                        select: {
+                            id: true,
+                            url: true,
+                            type: true,
+                            description: true
+                        }
+                    },
+                    Address: {
+                        select: {
+                            id: true,
+                            street: true,
+                            number: true,
+                            complement: true,
+                            neighborhood: true,
+                            city: true,
+                            state: true,
+                            zipCode: true
+                        }
+                    }
                 }
-            });
+            }) as EventsByCreatorId[];
         } catch (error) {
             throw new Error('Unable to get events by creator id');
         }
