@@ -67,6 +67,18 @@ class EventRepositoryPrisma implements EventRepository {
                             description: true,
                             imageUrl: true
                         }
+                    },
+                    Address: {
+                        select: {
+                            id: true,
+                            street: true,
+                            number: true,
+                            complement: true,
+                            neighborhood: true,
+                            city: true,
+                            state: true,
+                            zipCode: true
+                        }
                     }
                 }
             });
