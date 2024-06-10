@@ -148,6 +148,12 @@ class UserRepositoryPrisma implements UserRepository {
               select: {
                 id: true,
                 ticketTypeId: true,
+                ticketType: {
+                  select:{
+                    description:true,
+                    isActive:true
+                  }
+                },
                 participantName: true,
                 participantEmail: true,
                 price: true,
