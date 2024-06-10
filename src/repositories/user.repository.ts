@@ -129,28 +129,36 @@ class UserRepositoryPrisma implements UserRepository {
   async findAllEventsByExternalId(externalId: string): Promise<any> {
     try {
       return await prisma.$transaction(async (prisma) => {
-
         const user = await prisma.user.findFirst({
-          where: {
-            externalId,
-          },
-          select: {
-            id: true,
-          },
+          where: { externalId },
+          select: { id: true },
         });
+  
         if (!user) {
           throw new Error("User not found");
         }
+  
         const purchaseOrders = await prisma.purchaseOrder.findMany({
-          where: {
-            userId: user.id,
-          },
+          where: { userId: user.id },
           select: {
             id: true,
             eventId: true,
             status: true,
+            tickets: {
+              select: {
+                id: true,
+                ticketTypeId: true,
+                participantName: true,
+                participantEmail: true,
+                price: true,
+                status: true,
+                purchaseDate: true,
+                seatLocation: true,
+              },
+            },
           },
         });
+  
         const events = await prisma.event.findMany({
           where: {
             id: {
@@ -159,21 +167,42 @@ class UserRepositoryPrisma implements UserRepository {
           },
           include: {
             assets: {
-                select: {
-                    id: true,
-                    url: true,
-                    type: true,
-                    description: true
-                }
-            }
+              select: {
+                id: true,
+                url: true,
+                type: true,
+                description: true,
+              },
+            },
+            Address: {
+              select: {
+                id: true,
+                street: true,
+                number: true,
+                complement: true,
+                neighborhood: true,
+                city: true,
+                state: true,
+                zipCode: true,
+              },
+            },
           },
         });
-        return events;
-
+        const result = events.map(event => {
+          const relatedPurchaseOrders = purchaseOrders.filter(po => po.eventId === event.id);
+          return {
+            ...event,
+            purchaseOrders: relatedPurchaseOrders,
+          };
+        });
+  
+        return result;
       });
     } catch (error) {
-      
+      console.error("Error finding events by external ID:", error);
+      throw error;
     }
-
-}}
+  }
+  
+}
 export { UserRepositoryPrisma };
