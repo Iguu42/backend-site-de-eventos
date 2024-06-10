@@ -74,15 +74,14 @@ function getEventsByCreatorId(fastify: FastifyInstance) {
     })
 }
 function getEventsByExternalId(fastify: FastifyInstance) {
-    //fastify.addHook("preHandler", jwtValidator);
+    fastify.addHook("preHandler", jwtValidator);
     fastify.get<{ Params: { externalId: string } }>('/events', async (req, reply) => {
         const { externalId } = req.params;
         try {
-            const data = await eventUseCase.getEventsByExternalId("user_2gqeavZBoopxrOkHhfsjkYMGrsF");
+            const data = await eventUseCase.getEventsByExternalId(externalId);
             reply.code(200).send(data);
         } catch (error) {
             reply.code(404).send(error);
         }
     });
 }
-//"user_2gqeavZBoopxrOkHhfsjkYMGrsF"
